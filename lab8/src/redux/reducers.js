@@ -1,4 +1,4 @@
-import { TOGGLE_LIKED, ADD_TO_BASKET, REMOVE_FROM_BASKET } from "./actions";
+import { TOGGLE_LIKED, ADD_TO_BASKET, REMOVE_FROM_BASKET, DELETE_FROM_BASKET} from "./actions";
 import productsData from "../data";
 
 const initialState = {
@@ -41,6 +41,16 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productsInBasket: updatedProductsInBasket,
+            };
+        case DELETE_FROM_BASKET:
+            const productToDelete = state.productsInBasket.find(product => product.id === productId);
+            const productIndexToDelete = state.productsInBasket.indexOf(product => product.id === productId);
+            const updProductsInBasket = productToDelete.quantity > 1
+                ? state.productsInBasket.splice(productIndexToDelete,productIndexToDelete)
+                : state.productsInBasket.filter(product => product.id !== productId);
+            return {
+                ...state,
+                productsInBasket: updProductsInBasket,
             };
         default:
             return state;

@@ -5,6 +5,7 @@ import ProductsList from "./ProductsList";
 
 function Header() {
   const productsInBasket = useSelector((state) => state.productsInBasket);
+  const basketCount = productsInBasket.reduce((prev, product) => prev + product.quantity, 0);
   const [view, setView] = useState("products");
   return (
     <div>
@@ -23,7 +24,7 @@ function Header() {
           }`}
           onClick={() => setView("basket")}
         >
-          Basket ({productsInBasket.length})
+          Basket ({basketCount})
         </button>
       </div>
       {view === "products" ? <ProductsList /> : <Basket />}
